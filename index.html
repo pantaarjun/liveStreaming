@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Sports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .score-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .live-indicator {
+            color: white;
+            background-color: red;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .refresh-btn {
+            margin-top: 20px;
+        }
+
+        .details {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .social-share {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-share button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+        <header class="text-center mb-4">
+            <h1>Live Sports Updates</h1>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="search-bar text-center">
+            <input type="text" id="search" class="form-control w-50 mx-auto" placeholder="Search teams or matches..." oninput="filterMatches()">
+        </div>
+
+        <!-- Live Match Section -->
+        <div id="live-matches" class="row">
+            <!-- Dynamic Match Cards Will Be Injected Here -->
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary refresh-btn" onclick="fetchLiveScores()">Refresh Scores</button>
+        </div>
+
+        <!-- Social Share Buttons -->
+        <div class="social-share">
+            <button class="btn btn-outline-primary" onclick="shareOnPlatform('facebook')">Share on Facebook</button>
+            <button class="btn btn-outline-info" onclick="shareOnPlatform('twitter')">Share on Twitter</button>
+            <button class="btn btn-outline-danger" onclick="shareOnPlatform('youtube')">Go Live on YouTube</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulated Live Data (Replace with real API call)
+        let matches = [];
+
+        const fetchLiveScores = async () => {
+            // Simulating API call with static data
+            matches = [
+                {
+                    id: 1,
+                    teams: "Team A vs Team B",
+                    score: "120/3 (12.3 Overs)",
+                    status: "Live",
+                    details: "Team A is chasing a target of 180."
+                },
+                {
+                    id: 2,
+                    teams: "Team C vs Team D",
+                    score: "80/2 (8 Overs)",
+                    status: "Live",
+                    details: "Team D is batting first."
+                },
+                {
+                    id: 3,
+                    teams: "Team E vs Team F",
+                    score: "Match Starts at 4:00 PM",
+                    status: "Upcoming",
+                    details: "Venue: Stadium XYZ."
+                }
+            ];
+
+            renderMatches(matches);
+        };
+
+        const renderMatches = (matches) => {
+            const matchesContainer = document.getElementById("live-matches");
+            matchesContainer.innerHTML = ""; // Clear existing content
+
+            matches.forEach(match => {
+                const matchCard = document.createElement("div");
+                matchCard.className = "col-md-4 score-card p-3 bg-white";
+                matchCard.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${match.teams}</h5>
+                        <p class="card-text">${match.score}</p>
+                        ${match.status === "Live" ? `<span class='live-indicator'>Live</span>` : ""}
+                        <p class="details">${match.details}</p>
+                    </div>
+                `;
+                matchesContainer.appendChild(matchCard);
+            });
+        };
+
+        const filterMatches = () => {
+            const query = document.getElementById("search").value.toLowerCase();
+            const filteredMatches = matches.filter(match => match.teams.toLowerCase().includes(query));
+            renderMatches(filteredMatches);
+        };
+
+        const shareOnPlatform = (platform) => {
+            const url = window.location.href; // Current page URL
+            switch (platform) {
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=Check out live sports updates!`, '_blank');
+                    break;
+                case 'youtube':
+                    alert('To go live on YouTube, integrate YouTube Live API with your application.');
+                    break;
+                default:
+                    alert('Invalid platform selected.');
+            }
+        };
+
+        // Fetch scores on page load
+        window.onload = fetchLiveScores;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
