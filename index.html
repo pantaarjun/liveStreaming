@@ -48,10 +48,7 @@
 
         <div class="stream-container">
             <div class="video-container">
-                <video id="liveStream" class="video-player" controls autoplay>
-                    <source src="live-stream-url.mp4" type="video/mp4">
-                    Your browser does not support HTML5 video.
-                </video>
+                <iframe id="liveStream" class="video-player" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" frameborder="0" allowfullscreen></iframe>
             </div>
 
             <div class="controls text-center">
@@ -61,12 +58,11 @@
             </div>
 
             <div class="social-sharing mt-4">
-                <h5>Share to Social Platforms:</h5>
+                <h5>Stream to Social Platforms:</h5>
                 <div class="social-buttons">
-                    <button class="btn btn-primary" onclick="shareToPlatform('Facebook')">Facebook</button>
-                    <button class="btn btn-info" onclick="shareToPlatform('Twitter')">Twitter</button>
-                    <button class="btn btn-danger" onclick="shareToPlatform('YouTube')">YouTube</button>
-                    <button class="btn btn-dark" onclick="shareToPlatform('Instagram')">Instagram</button>
+                    <button class="btn btn-primary" onclick="streamToPlatform('Facebook')">Facebook Live</button>
+                    <button class="btn btn-danger" onclick="streamToPlatform('YouTube')">YouTube Live</button>
+                    <button class="btn btn-dark" onclick="streamToPlatform('Twitch')">Twitch</button>
                 </div>
             </div>
 
@@ -89,27 +85,29 @@
 
     <script>
         function startStreaming() {
-            const video = document.getElementById('liveStream');
-            video.play();
             alert('Streaming Started!');
         }
 
         function stopStreaming() {
-            const video = document.getElementById('liveStream');
-            video.pause();
-            video.currentTime = 0;
             alert('Streaming Stopped!');
         }
 
         function pauseStreaming() {
-            const video = document.getElementById('liveStream');
-            video.pause();
             alert('Streaming Paused!');
         }
 
-        function shareToPlatform(platform) {
-            const streamURL = 'https://example.com/live-stream'; // Replace with actual URL
-            window.open(`https://www.${platform.toLowerCase()}.com/share?url=${encodeURIComponent(streamURL)}`, '_blank');
+        function streamToPlatform(platform) {
+            const rtmpLinks = {
+                'Facebook': 'https://www.facebook.com/live/producer',
+                'YouTube': 'https://www.youtube.com/live_dashboard',
+                'Twitch': 'https://www.twitch.tv/dashboard/live'
+            };
+
+            if (rtmpLinks[platform]) {
+                window.open(rtmpLinks[platform], '_blank');
+            } else {
+                alert('Platform not supported.');
+            }
         }
 
         function addComment() {
