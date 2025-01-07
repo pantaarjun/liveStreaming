@@ -37,6 +37,14 @@
         .comment-author {
             font-weight: bold;
         }
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qr-code img {
+            max-width: 200px;
+            border: 2px solid #000;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +72,11 @@
                     <button class="btn btn-danger" onclick="streamToPlatform('YouTube')">YouTube Live</button>
                     <button class="btn btn-dark" onclick="streamToPlatform('Twitch')">Twitch</button>
                 </div>
+            </div>
+
+            <div class="qr-code mt-4">
+                <h5>Scan to Watch on Mobile:</h5>
+                <img id="qrCode" src="" alt="QR Code for Mobile Streaming">
             </div>
 
             <div class="comments-section mt-4">
@@ -130,6 +143,16 @@
                 alert('Please write a comment before submitting.');
             }
         }
+
+        // Generate QR Code for Mobile Streaming
+        function generateQRCode() {
+            const streamURL = 'https://www.example.com/live-stream'; // Replace with your live stream URL
+            const qrCodeImg = document.getElementById('qrCode');
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(streamURL)}&size=200x200`;
+        }
+
+        // Call QR Code generation on page load
+        window.onload = generateQRCode;
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
